@@ -2,25 +2,28 @@
 
 Public design language and prototype previews for OpenBit.
 
-## Preview Pack
+OpenBit 的公开设计语言与原型预览仓库。
 
-- [Design Pack Index](./previews/index.html)
-- [Project Overview](./previews/project-overview.html)
-- [Token Board](./previews/token-board.html)
-- [Component Gallery](./previews/component-gallery.html)
+## Preview Pack / 预览入口
 
-PNG snapshots:
+- [Locale Selector / 语言选择](./index.html)
+- [English Design Pack](./previews/en/index.html)
+- [简体中文设计包](./previews/zh/index.html)
+
+Representative PNG snapshots:
 
 - ![Design Pack](./previews/index.png)
-- ![Project Overview](./previews/project-overview.png)
-- ![Token Board](./previews/token-board.png)
-- ![Component Gallery](./previews/component-gallery.png)
 
-## Published Scope
+## Published Scope / 公开范围
 
 - architecture and design docs
 - foundation catalog and token contracts
 - domain presets and theme overlays
 - static preview artifacts
+
+- 架构与设计文档
+- foundation catalog 与 token 契约
+- domain preset 与主题覆盖
+- 静态预览产物
 
 This repo intentionally excludes application runtime code and workspace-private implementation details.

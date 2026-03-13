@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenBit 设计包 · OpenBit 设计包</title>
+    <style>
+      :root {
+        --canvas: #0b1020;
+        --canvas-strong: #071022;
+        --hero: #172554;
+        --card: #111827;
+        --card-soft: rgba(15, 23, 42, 0.58);
+        --card-line: rgba(148, 163, 184, 0.16);
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --accent: #60a5fa;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text-primary);
+        background:
+          radial-gradient(circle at top left, rgba(23, 37, 84, 0.95), transparent 36%),
+          radial-gradient(circle at top right, rgba(15, 23, 42, 0.9), transparent 28%),
+          linear-gradient(180deg, var(--canvas-strong) 0%, var(--canvas) 100%);
+      }
+      a { color: inherit; text-decoration: none; }
+      .page { max-width: 1240px; margin: 0 auto; padding: 28px 24px 72px; }
+      .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+      .kicker { color: var(--accent); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
+      .nav, .lang-switcher, .badge-row { display: flex; flex-wrap: wrap; gap: 10px; }
+      .nav a, .lang-link, .badge {
+        padding: 10px 12px; border-radius: 999px; border: 1px solid var(--card-line);
+        background: rgba(15, 23, 42, 0.35); font-size: 13px; color: var(--text-secondary);
+      }
+      .nav a[data-active="true"], .lang-link[data-active="true"] {
+        color: var(--text-primary); background: rgba(96, 165, 250, 0.16); border-color: rgba(96, 165, 250, 0.28);
+      }
+      .lang-meta { display: flex; align-items: center; gap: 10px; }
+      .lang-label { color: var(--text-muted); font-size: 12px; }
+      .hero {
+        padding: 28px; border-radius: 28px;
+        background: linear-gradient(180deg, rgba(23, 37, 84, 0.92) 0%, rgba(17, 24, 39, 0.96) 100%);
+        border: 1px solid var(--card-line); box-shadow: 0 24px 80px rgba(15, 23, 42, 0.28);
+      }
+      .hero h1 { margin: 0; font-size: 40px; line-height: 1.05; }
+      .hero p { max-width: 860px; margin: 14px 0 0; font-size: 16px; line-height: 1.7; color: var(--text-secondary); }
+      .hero-grid, .metric-grid, .content-grid, .catalog-grid, .token-grid, .deliverable-grid {
+        display: grid; gap: 16px; margin-top: 18px;
+      }
+      .hero-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .content-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+      .catalog-grid, .token-grid, .deliverable-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .card, .metric-card, .panel, .token-card, .catalog-card, .deliverable-card, .list-card {
+        border-radius: 22px; border: 1px solid var(--card-line); background: var(--card-soft); backdrop-filter: blur(12px);
+      }
+      .card, .panel, .catalog-card, .deliverable-card { padding: 22px; }
+      .card h2, .panel h2, .catalog-card h3, .deliverable-card h3 { margin: 0; }
+      .card p, .panel p, .catalog-card p, .deliverable-card p { margin: 10px 0 0; color: var(--text-secondary); line-height: 1.65; }
+      .metric-card { padding: 20px; }
+      .metric-value { font-size: 32px; font-weight: 700; }
+      .metric-label { margin-top: 8px; color: var(--text-muted); font-size: 13px; }
+      .metric-meta { margin-top: 6px; color: var(--accent); font-size: 12px; }
+      .list-stack, .catalog-meta, .file-list, .mini-list { display: grid; gap: 12px; margin-top: 14px; }
+      .list-card { padding: 16px; }
+      .list-card__head { display: flex; justify-content: space-between; gap: 12px; }
+      .list-card__head h3 { margin: 0; font-size: 16px; }
+      .list-card__head span { white-space: nowrap; color: var(--accent); font-size: 12px; }
+      .list-card p { margin: 8px 0 0; color: var(--text-secondary); font-size: 14px; line-height: 1.55; }
+      .badge-row { margin-top: 18px; }
+      .badge { display: inline-flex; min-height: 32px; align-items: center; background: rgba(96, 165, 250, 0.14); color: var(--text-primary); }
+      .token-card { padding: 18px; }
+      .token-swatch { width: 100%; height: 72px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.12); margin-bottom: 14px; }
+      .token-name { font-size: 14px; font-weight: 600; }
+      .token-value { margin-top: 6px; color: var(--text-muted); font-size: 12px; }
+      .mini-item {
+        padding: 10px 12px; border-radius: 14px; background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(148, 163, 184, 0.1);
+        color: var(--text-secondary); font-size: 13px;
+      }
+      .file-list code, .code {
+        display: inline-block; padding: 6px 8px; border-radius: 10px; background: rgba(15, 23, 42, 0.46); color: var(--text-secondary); font-size: 12px;
+      }
+      .footer-note { margin-top: 22px; font-size: 12px; color: var(--text-muted); }
+      @media (max-width: 1080px) {
+        .metric-grid, .catalog-grid, .token-grid, .deliverable-grid, .hero-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 760px) {
+        .page { padding: 18px 16px 40px; }
+        .topbar { flex-direction: column; align-items: flex-start; }
+        .hero h1 { font-size: 32px; }
+        .metric-grid, .content-grid, .catalog-grid, .token-grid, .deliverable-grid, .hero-grid { grid-template-columns: 1fr; }
+      }
+      @media print {
+        body { background: white; }
+        .page { max-width: none; padding: 0; }
+        .nav, .lang-meta { display: none; }
+        .hero, .card, .metric-card, .panel, .token-card, .catalog-card, .deliverable-card, .list-card { box-shadow: none; backdrop-filter: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="topbar">
+        <div class="kicker">OpenBit · 设计评审包 · JSON First</div>
+        <div class="lang-meta">
+          <span class="lang-label">语言</span>
+          <div class="lang-switcher">
+            <a class="lang-link" href="../en/index.html" data-active="false">EN</a>
+            <a class="lang-link" href="../zh/index.html" data-active="true">中文</a>
+          </div>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="./index.html" data-active="true">设计包</a><a href="./project-overview.html" data-active="false">项目总览</a><a href="./token-board.html" data-active="false">Token 面板</a><a href="./component-gallery.html" data-active="false">组件画廊</a>
+      </nav>
+      
+    <section class="hero">
+      <h1>支持国际化的 UI 设计评审包</h1>
+      <p>这套交付物是基于 JSON-first 架构的 Web 优先设计评审包。现在已经具备中英双语预览输出能力，产品与设计可以在同一套源资产上进行跨语言讨论。</p>
+    </section>
+    <section class="deliverable-grid">
+      
+            <a class="deliverable-card" href="./project-overview.html">
+              <h3>项目总览</h3>
+              <p>基于当前 JSON 页面样例生成的核心业务总览设计稿。</p>
+              <div class="badge-row"><span class="badge">HTML</span><span class="badge">PNG</span><span class="badge">PDF</span></div>
+            </a>
+          
+            <a class="deliverable-card" href="./token-board.html">
+              <h3>Token 面板</h3>
+              <p>用于审查 foundation 与 domain theme token 的可视化看板。</p>
+              <div class="badge-row"><span class="badge">HTML</span><span class="badge">PNG</span><span class="badge">PDF</span></div>
+            </a>
+          
+            <a class="deliverable-card" href="./component-gallery.html">
+              <h3>组件画廊</h3>
+              <p>用于审查 foundation catalog 与 OpenBit preset 的设计看板。</p>
+              <div class="badge-row"><span class="badge">HTML</span><span class="badge">PNG</span><span class="badge">PDF</span></div>
+            </a>
+          
+    </section>
+    <section class="content-grid">
+      <article class="panel">
+        <h2>目标</h2>
+        <div class="mini-list"><div class="mini-item">让设计评审不再依赖 Penpot，也不被具体渲染器锁死。</div><div class="mini-item">让设计稿直接从 token、preset、schema 资产派生。</div><div class="mini-item">支持浏览器评审、PNG 快照和 PDF 交付，并具备多语言版本。</div></div>
+      </article>
+      <article class="panel">
+        <h2>发布链路</h2>
+        <div class="file-list"><code>scripts/render-ui-preview-static.mjs</code><code>scripts/export-ui-preview-artifacts.mjs</code><code>scripts/sync-public-design-repo.mjs</code><code>design/ui-system/previews/preview-manifest.json</code></div>
+      </article>
+    </section>
+  
+    </main>
+  </body>
+</html>

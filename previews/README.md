@@ -5,13 +5,17 @@ Current preview target is static web-first output derived from the JSON-first sy
 ## Deliverables
 
 - `design/ui-system/previews/index.html`
-  - entry page for the review pack
-- `design/ui-system/previews/project-overview.html`
-  - business dashboard draft
-- `design/ui-system/previews/token-board.html`
-  - token review board
-- `design/ui-system/previews/component-gallery.html`
-  - foundation catalog + domain preset gallery
+  - locale selector entry
+- `design/ui-system/previews/en/index.html`
+  - English design pack entry
+- `design/ui-system/previews/zh/index.html`
+  - Chinese design pack entry
+- `design/ui-system/previews/en/project-overview.html`
+- `design/ui-system/previews/zh/project-overview.html`
+- `design/ui-system/previews/en/token-board.html`
+- `design/ui-system/previews/zh/token-board.html`
+- `design/ui-system/previews/en/component-gallery.html`
+- `design/ui-system/previews/zh/component-gallery.html`
 - `design/ui-system/previews/preview-manifest.json`
   - generated artifact manifest
 

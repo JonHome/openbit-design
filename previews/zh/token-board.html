@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Token 面板 · OpenBit 设计包</title>
+    <style>
+      :root {
+        --canvas: #0b1020;
+        --canvas-strong: #071022;
+        --hero: #172554;
+        --card: #111827;
+        --card-soft: rgba(15, 23, 42, 0.58);
+        --card-line: rgba(148, 163, 184, 0.16);
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --accent: #60a5fa;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text-primary);
+        background:
+          radial-gradient(circle at top left, rgba(23, 37, 84, 0.95), transparent 36%),
+          radial-gradient(circle at top right, rgba(15, 23, 42, 0.9), transparent 28%),
+          linear-gradient(180deg, var(--canvas-strong) 0%, var(--canvas) 100%);
+      }
+      a { color: inherit; text-decoration: none; }
+      .page { max-width: 1240px; margin: 0 auto; padding: 28px 24px 72px; }
+      .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+      .kicker { color: var(--accent); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
+      .nav, .lang-switcher, .badge-row { display: flex; flex-wrap: wrap; gap: 10px; }
+      .nav a, .lang-link, .badge {
+        padding: 10px 12px; border-radius: 999px; border: 1px solid var(--card-line);
+        background: rgba(15, 23, 42, 0.35); font-size: 13px; color: var(--text-secondary);
+      }
+      .nav a[data-active="true"], .lang-link[data-active="true"] {
+        color: var(--text-primary); background: rgba(96, 165, 250, 0.16); border-color: rgba(96, 165, 250, 0.28);
+      }
+      .lang-meta { display: flex; align-items: center; gap: 10px; }
+      .lang-label { color: var(--text-muted); font-size: 12px; }
+      .hero {
+        padding: 28px; border-radius: 28px;
+        background: linear-gradient(180deg, rgba(23, 37, 84, 0.92) 0%, rgba(17, 24, 39, 0.96) 100%);
+        border: 1px solid var(--card-line); box-shadow: 0 24px 80px rgba(15, 23, 42, 0.28);
+      }
+      .hero h1 { margin: 0; font-size: 40px; line-height: 1.05; }
+      .hero p { max-width: 860px; margin: 14px 0 0; font-size: 16px; line-height: 1.7; color: var(--text-secondary); }
+      .hero-grid, .metric-grid, .content-grid, .catalog-grid, .token-grid, .deliverable-grid {
+        display: grid; gap: 16px; margin-top: 18px;
+      }
+      .hero-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .content-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+      .catalog-grid, .token-grid, .deliverable-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .card, .metric-card, .panel, .token-card, .catalog-card, .deliverable-card, .list-card {
+        border-radius: 22px; border: 1px solid var(--card-line); background: var(--card-soft); backdrop-filter: blur(12px);
+      }
+      .card, .panel, .catalog-card, .deliverable-card { padding: 22px; }
+      .card h2, .panel h2, .catalog-card h3, .deliverable-card h3 { margin: 0; }
+      .card p, .panel p, .catalog-card p, .deliverable-card p { margin: 10px 0 0; color: var(--text-secondary); line-height: 1.65; }
+      .metric-card { padding: 20px; }
+      .metric-value { font-size: 32px; font-weight: 700; }
+      .metric-label { margin-top: 8px; color: var(--text-muted); font-size: 13px; }
+      .metric-meta { margin-top: 6px; color: var(--accent); font-size: 12px; }
+      .list-stack, .catalog-meta, .file-list, .mini-list { display: grid; gap: 12px; margin-top: 14px; }
+      .list-card { padding: 16px; }
+      .list-card__head { display: flex; justify-content: space-between; gap: 12px; }
+      .list-card__head h3 { margin: 0; font-size: 16px; }
+      .list-card__head span { white-space: nowrap; color: var(--accent); font-size: 12px; }
+      .list-card p { margin: 8px 0 0; color: var(--text-secondary); font-size: 14px; line-height: 1.55; }
+      .badge-row { margin-top: 18px; }
+      .badge { display: inline-flex; min-height: 32px; align-items: center; background: rgba(96, 165, 250, 0.14); color: var(--text-primary); }
+      .token-card { padding: 18px; }
+      .token-swatch { width: 100%; height: 72px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.12); margin-bottom: 14px; }
+      .token-name { font-size: 14px; font-weight: 600; }
+      .token-value { margin-top: 6px; color: var(--text-muted); font-size: 12px; }
+      .mini-item {
+        padding: 10px 12px; border-radius: 14px; background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(148, 163, 184, 0.1);
+        color: var(--text-secondary); font-size: 13px;
+      }
+      .file-list code, .code {
+        display: inline-block; padding: 6px 8px; border-radius: 10px; background: rgba(15, 23, 42, 0.46); color: var(--text-secondary); font-size: 12px;
+      }
+      .footer-note { margin-top: 22px; font-size: 12px; color: var(--text-muted); }
+      @media (max-width: 1080px) {
+        .metric-grid, .catalog-grid, .token-grid, .deliverable-grid, .hero-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 760px) {
+        .page { padding: 18px 16px 40px; }
+        .topbar { flex-direction: column; align-items: flex-start; }
+        .hero h1 { font-size: 32px; }
+        .metric-grid, .content-grid, .catalog-grid, .token-grid, .deliverable-grid, .hero-grid { grid-template-columns: 1fr; }
+      }
+      @media print {
+        body { background: white; }
+        .page { max-width: none; padding: 0; }
+        .nav, .lang-meta { display: none; }
+        .hero, .card, .metric-card, .panel, .token-card, .catalog-card, .deliverable-card, .list-card { box-shadow: none; backdrop-filter: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="topbar">
+        <div class="kicker">OpenBit · 设计评审包 · JSON First</div>
+        <div class="lang-meta">
+          <span class="lang-label">语言</span>
+          <div class="lang-switcher">
+            <a class="lang-link" href="../en/token-board.html" data-active="false">EN</a>
+            <a class="lang-link" href="../zh/token-board.html" data-active="true">中文</a>
+          </div>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="./index.html" data-active="false">设计包</a><a href="./project-overview.html" data-active="false">项目总览</a><a href="./token-board.html" data-active="true">Token 面板</a><a href="./component-gallery.html" data-active="false">组件画廊</a>
+      </nav>
+      
+    <section class="hero">
+      <h1>Token 面板</h1>
+      <p>Foundation token 层保持通用，Domain token 层只表达 OpenBit 业务语义。这种边界能避免产品细节污染 UI kernel。</p>
+    </section>
+    
+          <section class="panel" style="margin-top:18px;">
+            <h2>Foundation Dark</h2>
+            <div class="token-grid">
+              
+                    <article class="token-card">
+                      <div class="token-swatch" style="background:#0b1020;"></div>
+                      <div class="token-name">foundation.surface.canvas</div>
+                      <div class="token-value">#0b1020</div>
+                    </article>
+                  
+                    <article class="token-card">
+                      <div class="token-swatch" style="background:#111827;"></div>
+                      <div class="token-name">foundation.surface.card</div>
+                      <div class="token-value">#111827</div>
+                    </article>
+                  
+                    <article class="token-card">
+                      <div class="token-swatch" style="background:#172554;"></div>
+                      <div class="token-name">foundation.surface.card-strong</div>
+                      <div class="token-value">#172554</div>
+                    </article>
+                  
+                    <article class="token-card">
+                      <div class="token-swatch" style="background:#1e293b;"></div>
+                      <div class="token-name">foundation.border.subtle</div>
+                      <div class="token-value">#1e293b</div>
+                    </article>
+                  
+                    <article class="token-card">
+                      <div class="token-swatch" style="background:#f8fafc;"></div>
+                      <div class="token-name">foundation.text.primary</div>
+                      <div class="token-value">#f8fafc</div>
+                    </article>
+                  
+                    <article class="token-card">
+                      <div class="token-swatch" style="background:#cbd5e1;"></div>
+                      <div class="token-name">foundation.text.secondary</div>
+                      <div class="token-value">#cbd5e1</div>
+                    </article>
+                  
+                    <article class="token-card">
+                      <div class="token-swatch" style="background:#94a3b8;"></div>
+                      <div class="token-name">foundation.text.muted</div>
+                      <div class="token-value">#94a3b8</div>
+                    </article>
+                  
+                    <article class="token-card">
+                      <div class="token-swatch" style="background:#60a5fa;"></div>
+                      <div class="token-name">foundation.accent.info</div>
+                      <div class="token-value">#60a5fa</div>
+                    </article>
+                  
+            </div>
+          </section>
+        
+          <section class="panel" style="margin-top:18px;">
+            <h2>OpenBit Dark</h2>
+            <div class="token-grid">
+              
+                    <article class="token-card">
+                      <div class="token-swatch" style="background:#172554;"></div>
+                      <div class="token-name">openbit.surface.hero</div>
+                      <div class="token-value">#172554</div>
+                    </article>
+                  
+                    <article class="token-card">
+                      <div class="token-swatch" style="background:#60a5fa;"></div>
+                      <div class="token-name">openbit.accent.active</div>
+                      <div class="token-value">#60a5fa</div>
+                    </article>
+                  
+                    <article class="token-card">
+                      <div class="token-swatch" style="background:#22c55e;"></div>
+                      <div class="token-name">openbit.status.running</div>
+                      <div class="token-value">#22c55e</div>
+                    </article>
+                  
+                    <article class="token-card">
+                      <div class="token-swatch" style="background:#f59e0b;"></div>
+                      <div class="token-name">openbit.status.blocked</div>
+                      <div class="token-value">#f59e0b</div>
+                    </article>
+                  
+                    <article class="token-card">
+                      <div class="token-swatch" style="background:#94a3b8;"></div>
+                      <div class="token-name">openbit.status.idle</div>
+                      <div class="token-value">#94a3b8</div>
+                    </article>
+                  
+            </div>
+          </section>
+        
+    <section class="content-grid">
+      <article class="panel">
+        <h2>规则</h2>
+        <div class="mini-list"><div class="mini-item">Foundation 负责画布、表面、边框与中性文字梯度。</div><div class="mini-item">Domain 负责产品语义，例如 hero 强调和运行状态颜色。</div><div class="mini-item">App 层可以选主题，但不应重新定义 token taxonomy。</div></div>
+      </article>
+      <article class="panel">
+        <h2>文件</h2>
+        <div class="file-list">
+          <code>packages/ui-foundation/tokens/themes/foundation.dark.json</code>
+          <code>packages/ui-domain-openbit/tokens/themes/openbit.dark.json</code>
+        </div>
+      </article>
+    </section>
+  
+    </main>
+  </body>
+</html>
