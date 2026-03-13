@@ -1,0 +1,34 @@
+{
+  "id": "content.text",
+  "kind": "component",
+  "title": "Paragraph",
+  "description": "Body copy with tone and line constraints.",
+  "props": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "tone": {
+      "type": "enum",
+      "enum": [
+        "primary",
+        "secondary",
+        "muted"
+      ],
+      "default": "secondary"
+    },
+    "numberOfLines": {
+      "type": "number"
+    }
+  },
+  "tokenHooks": {
+    "textPrimary": "foundation.text.primary",
+    "textSecondary": "foundation.text.secondary",
+    "textMuted": "foundation.text.muted"
+  },
+  "rendererHints": {
+    "jsonrender": {
+      "type": "BodyText"
+    }
+  }
+}

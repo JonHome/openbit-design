@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-03-12T17:23:01.871Z",
+  "previews": [
+    {
+      "id": "index",
+      "title": "OpenBit UI Design Pack",
+      "html": "design/ui-system/previews/index.html",
+      "png": "design/ui-system/previews/index.png",
+      "pdf": "design/ui-system/previews/index.pdf"
+    },
+    {
+      "id": "project-overview",
+      "title": "Project Overview · OpenBit UI Preview",
+      "html": "design/ui-system/previews/project-overview.html",
+      "png": "design/ui-system/previews/project-overview.png",
+      "pdf": "design/ui-system/previews/project-overview.pdf"
+    },
+    {
+      "id": "token-board",
+      "title": "Token Board · OpenBit UI Preview",
+      "html": "design/ui-system/previews/token-board.html",
+      "png": "design/ui-system/previews/token-board.png",
+      "pdf": "design/ui-system/previews/token-board.pdf"
+    },
+    {
+      "id": "component-gallery",
+      "title": "Component Gallery · OpenBit UI Preview",
+      "html": "design/ui-system/previews/component-gallery.html",
+      "png": "design/ui-system/previews/component-gallery.png",
+      "pdf": "design/ui-system/previews/component-gallery.pdf"
+    }
+  ]
+}

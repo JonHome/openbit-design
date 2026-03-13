@@ -1,0 +1,30 @@
+{
+  "id": "content.heading",
+  "kind": "component",
+  "title": "Heading",
+  "description": "Semantic title text.",
+  "props": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "level": {
+      "type": "enum",
+      "enum": [
+        "h1",
+        "h2",
+        "h3",
+        "h4"
+      ],
+      "default": "h2"
+    }
+  },
+  "tokenHooks": {
+    "text": "foundation.text.primary"
+  },
+  "rendererHints": {
+    "jsonrender": {
+      "type": "HeadingText"
+    }
+  }
+}

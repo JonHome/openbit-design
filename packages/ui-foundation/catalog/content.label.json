@@ -1,0 +1,20 @@
+{
+  "id": "content.label",
+  "kind": "component",
+  "title": "Label",
+  "description": "Compact label text for metadata.",
+  "props": {
+    "text": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "tokenHooks": {
+    "text": "foundation.text.muted"
+  },
+  "rendererHints": {
+    "jsonrender": {
+      "type": "MetaText"
+    }
+  }
+}

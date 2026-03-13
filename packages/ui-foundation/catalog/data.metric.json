@@ -1,0 +1,30 @@
+{
+  "id": "data.metric",
+  "kind": "component",
+  "title": "Metric",
+  "description": "Small metric card for summary numbers.",
+  "props": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "value": {
+      "type": "string",
+      "required": true
+    },
+    "meta": {
+      "type": "string"
+    }
+  },
+  "tokenHooks": {
+    "background": "foundation.surface.card",
+    "value": "foundation.text.primary",
+    "label": "foundation.text.muted",
+    "meta": "foundation.accent.info"
+  },
+  "rendererHints": {
+    "jsonrender": {
+      "type": "MetricCard"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "foundation.dark",
+  "kind": "theme",
+  "title": "Foundation Dark",
+  "tokens": {
+    "foundation.surface.canvas": "#0b1020",
+    "foundation.surface.card": "#111827",
+    "foundation.surface.card-strong": "#172554",
+    "foundation.border.subtle": "#1e293b",
+    "foundation.text.primary": "#f8fafc",
+    "foundation.text.secondary": "#cbd5e1",
+    "foundation.text.muted": "#94a3b8",
+    "foundation.accent.info": "#60a5fa"
+  }
+}

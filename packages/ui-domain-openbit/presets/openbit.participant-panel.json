@@ -1,0 +1,55 @@
+{
+  "id": "openbit.participant-panel",
+  "kind": "preset",
+  "title": "OpenBit Participant Panel",
+  "description": "Project participant list.",
+  "root": {
+    "id": "openbit.participant-panel.root",
+    "kind": "component",
+    "component": "surface.card",
+    "slots": {
+      "children": [
+        {
+          "id": "openbit.participant-panel.heading",
+          "kind": "component",
+          "component": "content.heading",
+          "props": {
+            "text": "Participants",
+            "level": "h3"
+          }
+        },
+        {
+          "id": "openbit.participant-panel.items",
+          "kind": "component",
+          "component": "layout.stack",
+          "props": {
+            "gap": 10
+          },
+          "slots": {
+            "children": [
+              {
+                "id": "openbit.participant-panel.collection",
+                "kind": "collection",
+                "bind": {
+                  "items": "$data.items"
+                },
+                "slots": {
+                  "template": {
+                    "id": "openbit.participant-panel.collection.template",
+                    "kind": "component",
+                    "component": "data.list-item",
+                    "bind": {
+                      "title": "$derived.item.name",
+                      "subtitle": "$derived.item.role",
+                      "meta": "$derived.item.status"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

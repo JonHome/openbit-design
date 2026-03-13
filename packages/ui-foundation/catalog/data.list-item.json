@@ -1,0 +1,29 @@
+{
+  "id": "data.list-item",
+  "kind": "component",
+  "title": "List Item",
+  "description": "Semantic list row for tasks, runs, and participants.",
+  "props": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "meta": {
+      "type": "string"
+    }
+  },
+  "tokenHooks": {
+    "background": "foundation.surface.card",
+    "title": "foundation.text.primary",
+    "subtitle": "foundation.text.secondary",
+    "meta": "foundation.accent.info"
+  },
+  "rendererHints": {
+    "jsonrender": {
+      "type": "ListCard"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "openbit.dark",
+  "kind": "theme",
+  "title": "OpenBit Dark",
+  "tokens": {
+    "openbit.surface.hero": "#172554",
+    "openbit.accent.active": "#60a5fa",
+    "openbit.status.running": "#22c55e",
+    "openbit.status.blocked": "#f59e0b",
+    "openbit.status.idle": "#94a3b8"
+  }
+}

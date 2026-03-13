@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openbit.app/schemas/ui-foundation/token-hook-map.schema.json",
+  "title": "TokenHookMap",
+  "description": "Maps semantic token hooks to stable token identifiers.",
+  "type": "object",
+  "propertyNames": {
+    "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+  },
+  "additionalProperties": {
+    "type": "string",
+    "pattern": "^[a-z0-9][a-z0-9-]*(\\.[a-z0-9][a-z0-9-]*)+$"
+  }
+}

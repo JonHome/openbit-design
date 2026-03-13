@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openbit.app/schemas/ui-foundation/preset.schema.json",
+  "title": "Preset",
+  "description": "Reusable composition preset built on top of kernel nodes and foundation/domain catalog entries.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "kind",
+    "root"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*(\\.[a-z0-9][a-z0-9-]*)+$"
+    },
+    "kind": {
+      "type": "string",
+      "const": "preset"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "defaultVariant": {
+      "$ref": "https://openbit.app/schemas/ui-foundation/preset-variant-map.schema.json"
+    },
+    "defaultProps": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+      },
+      "additionalProperties": true
+    },
+    "tokenHooks": {
+      "$ref": "https://openbit.app/schemas/ui-foundation/token-hook-map.schema.json"
+    },
+    "themeRef": {
+      "$ref": "https://openbit.app/schemas/ui-kernel/theme-ref.schema.json"
+    },
+    "root": {
+      "$ref": "https://openbit.app/schemas/ui-kernel/node.schema.json"
+    }
+  }
+}

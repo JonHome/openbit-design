@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project Overview · OpenBit UI Preview</title>
+    <style>
+      :root {
+        --canvas: #0b1020;
+        --canvas-strong: #071022;
+        --hero: #172554;
+        --card: #111827;
+        --card-soft: rgba(15, 23, 42, 0.58);
+        --card-line: rgba(148, 163, 184, 0.16);
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --accent: #60a5fa;
+        --success: #22c55e;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text-primary);
+        background:
+          radial-gradient(circle at top left, rgba(23, 37, 84, 0.95), transparent 36%),
+          radial-gradient(circle at top right, rgba(15, 23, 42, 0.9), transparent 28%),
+          linear-gradient(180deg, var(--canvas-strong) 0%, var(--canvas) 100%);
+      }
+
+      a { color: inherit; text-decoration: none; }
+
+      .page {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 28px 24px 72px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .kicker {
+        color: var(--accent);
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .nav a {
+        padding: 10px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--card-line);
+        background: rgba(15, 23, 42, 0.35);
+        font-size: 13px;
+        color: var(--text-secondary);
+      }
+
+      .nav a[data-active="true"] {
+        color: var(--text-primary);
+        background: rgba(96, 165, 250, 0.16);
+        border-color: rgba(96, 165, 250, 0.28);
+      }
+
+      .hero {
+        padding: 28px;
+        border-radius: 28px;
+        background: linear-gradient(180deg, rgba(23, 37, 84, 0.92) 0%, rgba(17, 24, 39, 0.96) 100%);
+        border: 1px solid var(--card-line);
+        box-shadow: 0 24px 80px rgba(15, 23, 42, 0.28);
+      }
+
+      .hero h1 {
+        margin: 0;
+        font-size: 40px;
+        line-height: 1.05;
+      }
+
+      .hero p {
+        max-width: 860px;
+        margin: 14px 0 0;
+        font-size: 16px;
+        line-height: 1.7;
+        color: var(--text-secondary);
+      }
+
+      .hero-grid,
+      .metric-grid,
+      .content-grid,
+      .catalog-grid,
+      .token-grid,
+      .deliverable-grid {
+        display: grid;
+        gap: 16px;
+        margin-top: 18px;
+      }
+
+      .hero-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .content-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+      .catalog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .token-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .deliverable-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+      .card,
+      .metric-card,
+      .panel,
+      .token-card,
+      .catalog-card,
+      .deliverable-card,
+      .list-card {
+        border-radius: 22px;
+        border: 1px solid var(--card-line);
+        background: var(--card-soft);
+        backdrop-filter: blur(12px);
+      }
+
+      .card,
+      .panel,
+      .catalog-card,
+      .deliverable-card {
+        padding: 22px;
+      }
+
+      .card h2,
+      .panel h2,
+      .catalog-card h3,
+      .deliverable-card h3 {
+        margin: 0;
+      }
+
+      .card p,
+      .panel p,
+      .catalog-card p,
+      .deliverable-card p {
+        margin: 10px 0 0;
+        color: var(--text-secondary);
+        line-height: 1.65;
+      }
+
+      .metric-card {
+        padding: 20px;
+      }
+
+      .metric-value {
+        font-size: 32px;
+        font-weight: 700;
+      }
+
+      .metric-label {
+        margin-top: 8px;
+        color: var(--text-muted);
+        font-size: 13px;
+      }
+
+      .metric-meta {
+        margin-top: 6px;
+        color: var(--accent);
+        font-size: 12px;
+      }
+
+      .list-stack {
+        display: grid;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .list-card {
+        padding: 16px;
+      }
+
+      .list-card__head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .list-card__head h3 {
+        margin: 0;
+        font-size: 16px;
+      }
+
+      .list-card__head span {
+        white-space: nowrap;
+        color: var(--accent);
+        font-size: 12px;
+      }
+
+      .list-card p {
+        margin: 8px 0 0;
+        color: var(--text-secondary);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .badge {
+        display: inline-flex;
+        min-height: 32px;
+        align-items: center;
+        padding: 0 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(96, 165, 250, 0.28);
+        background: rgba(96, 165, 250, 0.14);
+        color: var(--text-primary);
+        font-size: 13px;
+      }
+
+      .token-card {
+        padding: 18px;
+      }
+
+      .token-swatch {
+        width: 100%;
+        height: 72px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        margin-bottom: 14px;
+      }
+
+      .token-name {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .token-value {
+        margin-top: 6px;
+        color: var(--text-muted);
+        font-size: 12px;
+      }
+
+      .catalog-meta,
+      .file-list,
+      .mini-list {
+        display: grid;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .mini-item {
+        padding: 10px 12px;
+        border-radius: 14px;
+        background: rgba(15, 23, 42, 0.4);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        color: var(--text-secondary);
+        font-size: 13px;
+      }
+
+      .file-list code,
+      .code {
+        display: inline-block;
+        padding: 6px 8px;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.46);
+        color: var(--text-secondary);
+        font-size: 12px;
+      }
+
+      .footer-note {
+        margin-top: 22px;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      @media (max-width: 1080px) {
+        .metric-grid,
+        .catalog-grid,
+        .token-grid,
+        .deliverable-grid,
+        .hero-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+
+      @media (max-width: 760px) {
+        .page { padding: 18px 16px 40px; }
+        .topbar { flex-direction: column; align-items: flex-start; }
+        .hero h1 { font-size: 32px; }
+        .metric-grid,
+        .content-grid,
+        .catalog-grid,
+        .token-grid,
+        .deliverable-grid,
+        .hero-grid { grid-template-columns: 1fr; }
+      }
+
+      @media print {
+        body { background: white; }
+        .page { max-width: none; padding: 0; }
+        .nav { display: none; }
+        .hero,
+        .card,
+        .metric-card,
+        .panel,
+        .token-card,
+        .catalog-card,
+        .deliverable-card,
+        .list-card {
+          box-shadow: none;
+          backdrop-filter: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="topbar">
+        <div class="kicker">OpenBit · Design Review Pack · JSON First</div>
+        <nav class="nav">
+          <a href="index.html" data-active="false">Design Pack</a><a href="project-overview.html" data-active="true">Project Overview</a><a href="token-board.html" data-active="false">Token Board</a><a href="component-gallery.html" data-active="false">Component Gallery</a>
+        </nav>
+      </div>
+      
+    <section class="hero">
+      <h1>OpenBit Multi-Agent Workspace</h1>
+      <p>A real-world projection system for agents, models, organizations, resources, projects, requirements, and tasks with a clean relation layer.</p>
+      <div class="badge-row">
+        <span class="badge">Active</span><span class="badge">OpenBit Studio</span><span class="badge">gpt-5.4</span>
+      </div>
+    </section>
+
+    <section class="metric-grid">
+      
+            <article class="metric-card">
+              <div class="metric-value">12</div>
+              <div class="metric-label">Agents</div>
+              <div class="metric-meta">4 running</div>
+            </article>
+          
+            <article class="metric-card">
+              <div class="metric-value">18</div>
+              <div class="metric-label">Requirements</div>
+              <div class="metric-meta">3 blocked</div>
+            </article>
+          
+            <article class="metric-card">
+              <div class="metric-value">74</div>
+              <div class="metric-label">Tasks</div>
+              <div class="metric-meta">11 in progress</div>
+            </article>
+          
+            <article class="metric-card">
+              <div class="metric-value">$248</div>
+              <div class="metric-label">Cost</div>
+              <div class="metric-meta">This week</div>
+            </article>
+          
+    </section>
+
+    <section class="content-grid">
+      <article class="panel">
+        <h2>Requirements</h2>
+        <div class="list-stack">
+        <article class="list-card">
+          <div class="list-card__head">
+            <h3>Runtime object dictionary v1.0</h3>
+            <span>Done</span>
+          </div>
+          <p>Settle run boundaries for model, agent, resource, cost, output and evaluation.</p>
+        </article>
+      
+        <article class="list-card">
+          <div class="list-card__head">
+            <h3>Renderer adapter prototype</h3>
+            <span>In Progress</span>
+          </div>
+          <p>Translate kernel nodes and domain presets into JsonRender specs.</p>
+        </article>
+      
+        <article class="list-card">
+          <div class="list-card__head">
+            <h3>Evaluation pipeline</h3>
+            <span>Planned</span>
+          </div>
+          <p>Track scorecards, review comments and result confidence.</p>
+        </article>
+      </div>
+      </article>
+      <article class="panel">
+        <h2>Runtime Activity</h2>
+        <div class="list-stack">
+        <article class="list-card">
+          <div class="list-card__head">
+            <h3>Project overview preview</h3>
+            <span>Running</span>
+          </div>
+          <p>Rendered from kernel page JSON through JsonRender adapter.</p>
+        </article>
+      
+        <article class="list-card">
+          <div class="list-card__head">
+            <h3>Token/theme merge</h3>
+            <span>Success</span>
+          </div>
+          <p>Merged foundation.dark with openbit.dark for preview resolution.</p>
+        </article>
+      
+        <article class="list-card">
+          <div class="list-card__head">
+            <h3>Catalog validation</h3>
+            <span>Success</span>
+          </div>
+          <p>Foundation assets loaded and expanded successfully.</p>
+        </article>
+      </div>
+      </article>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel">
+        <h2>Participants</h2>
+        <div class="list-stack">
+        <article class="list-card">
+          <div class="list-card__head">
+            <h3>Strategy Agent</h3>
+            <span>Assigned</span>
+          </div>
+          <p>Product Architecture</p>
+        </article>
+      
+        <article class="list-card">
+          <div class="list-card__head">
+            <h3>Runtime Agent</h3>
+            <span>Running</span>
+          </div>
+          <p>Execution Orchestration</p>
+        </article>
+      
+        <article class="list-card">
+          <div class="list-card__head">
+            <h3>Review Agent</h3>
+            <span>Standby</span>
+          </div>
+          <p>Result Evaluation</p>
+        </article>
+      </div>
+      </article>
+      <article class="panel">
+        <h2>Source</h2>
+        <div class="file-list">
+          <code>packages/app-openbit/examples/project-overview.page.json</code>
+          <code>packages/app-openbit/examples/project-overview.data.json</code>
+          <code>packages/ui-domain-openbit/presets/*.json</code>
+          <code>packages/ui-foundation/catalog/*.json</code>
+        </div>
+        <p>Current visual draft is generated from the same JSON-first structure used by the architecture docs.</p>
+      </article>
+    </section>
+
+    <div class="footer-note">
+      Generated from page.project-overview using foundation.dark + openbit.dark.
+    </div>
+  
+    </main>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+{
+  "id": "openbit.requirement-list",
+  "kind": "preset",
+  "title": "OpenBit Requirement List",
+  "description": "Requirement status list.",
+  "root": {
+    "id": "openbit.requirement-list.root",
+    "kind": "component",
+    "component": "surface.card",
+    "slots": {
+      "children": [
+        {
+          "id": "openbit.requirement-list.heading",
+          "kind": "component",
+          "component": "content.heading",
+          "props": {
+            "text": "Requirements",
+            "level": "h3"
+          }
+        },
+        {
+          "id": "openbit.requirement-list.items",
+          "kind": "component",
+          "component": "layout.stack",
+          "props": {
+            "gap": 10
+          },
+          "slots": {
+            "children": [
+              {
+                "id": "openbit.requirement-list.collection",
+                "kind": "collection",
+                "bind": {
+                  "items": "$data.items"
+                },
+                "slots": {
+                  "template": {
+                    "id": "openbit.requirement-list.collection.template",
+                    "kind": "component",
+                    "component": "data.list-item",
+                    "bind": {
+                      "title": "$derived.item.title",
+                      "subtitle": "$derived.item.summary",
+                      "meta": "$derived.item.status"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

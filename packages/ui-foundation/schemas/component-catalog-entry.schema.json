@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openbit.app/schemas/ui-foundation/component-catalog-entry.schema.json",
+  "title": "ComponentCatalogEntry",
+  "description": "Foundation or domain component catalog contract.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "kind"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*(\\.[a-z0-9][a-z0-9-]*)+$"
+    },
+    "kind": {
+      "type": "string",
+      "const": "component"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "props": {
+      "$ref": "https://openbit.app/schemas/ui-foundation/prop-contract.schema.json"
+    },
+    "variants": {
+      "$ref": "https://openbit.app/schemas/ui-foundation/variant.schema.json"
+    },
+    "slots": {
+      "$ref": "https://openbit.app/schemas/ui-foundation/slot.schema.json"
+    },
+    "tokenHooks": {
+      "$ref": "https://openbit.app/schemas/ui-foundation/token-hook-map.schema.json"
+    },
+    "rendererHints": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+      },
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "id": "surface.card",
+  "kind": "component",
+  "title": "Card",
+  "description": "Surface container for grouped content.",
+  "props": {
+    "padding": {
+      "type": "number",
+      "default": 16
+    },
+    "borderRadius": {
+      "type": "number",
+      "default": 18
+    },
+    "elevated": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "slots": {
+    "children": {
+      "kind": "collection",
+      "required": false,
+      "allowedKinds": [
+        "component",
+        "fragment",
+        "text",
+        "collection"
+      ]
+    }
+  },
+  "tokenHooks": {
+    "background": "foundation.surface.card",
+    "border": "foundation.border.subtle"
+  },
+  "rendererHints": {
+    "jsonrender": {
+      "type": "CardSurface"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "id": "layout.grid",
+  "kind": "component",
+  "title": "Grid",
+  "description": "Wrapping layout for cards and dense summary content.",
+  "props": {
+    "gap": {
+      "type": "number",
+      "default": 12
+    },
+    "padding": {
+      "type": "number"
+    }
+  },
+  "slots": {
+    "children": {
+      "kind": "collection",
+      "required": false,
+      "allowedKinds": [
+        "component",
+        "fragment",
+        "text",
+        "collection"
+      ]
+    }
+  },
+  "rendererHints": {
+    "jsonrender": {
+      "type": "Grid"
+    }
+  }
+}

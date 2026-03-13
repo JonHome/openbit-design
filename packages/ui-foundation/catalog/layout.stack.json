@@ -1,0 +1,61 @@
+{
+  "id": "layout.stack",
+  "kind": "component",
+  "title": "Stack",
+  "description": "Generic one-dimensional layout container.",
+  "props": {
+    "direction": {
+      "type": "enum",
+      "enum": [
+        "vertical",
+        "horizontal"
+      ],
+      "default": "vertical"
+    },
+    "gap": {
+      "type": "number",
+      "default": 12
+    },
+    "padding": {
+      "type": "number"
+    },
+    "alignItems": {
+      "type": "enum",
+      "enum": [
+        "flex-start",
+        "center",
+        "flex-end",
+        "stretch"
+      ]
+    },
+    "justifyContent": {
+      "type": "enum",
+      "enum": [
+        "flex-start",
+        "center",
+        "flex-end",
+        "space-between"
+      ]
+    }
+  },
+  "slots": {
+    "children": {
+      "kind": "collection",
+      "required": false,
+      "allowedKinds": [
+        "component",
+        "fragment",
+        "text",
+        "collection"
+      ]
+    }
+  },
+  "tokenHooks": {
+    "text": "foundation.text.primary"
+  },
+  "rendererHints": {
+    "jsonrender": {
+      "type": "Stack"
+    }
+  }
+}

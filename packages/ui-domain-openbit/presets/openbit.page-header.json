@@ -1,0 +1,76 @@
+{
+  "id": "openbit.page-header",
+  "kind": "preset",
+  "title": "OpenBit Page Header",
+  "description": "Project hero summary for an OpenBit project page.",
+  "root": {
+    "id": "openbit.page-header.root",
+    "kind": "component",
+    "component": "surface.card",
+    "props": {
+      "padding": 20
+    },
+    "slots": {
+      "children": [
+        {
+          "id": "openbit.page-header.title",
+          "kind": "component",
+          "component": "content.heading",
+          "bind": {
+            "text": "$data.entity.name"
+          }
+        },
+        {
+          "id": "openbit.page-header.summary",
+          "kind": "component",
+          "component": "content.text",
+          "props": {
+            "tone": "secondary"
+          },
+          "bind": {
+            "text": "$data.entity.summary"
+          }
+        },
+        {
+          "id": "openbit.page-header.badges",
+          "kind": "component",
+          "component": "layout.grid",
+          "props": {
+            "gap": 8
+          },
+          "slots": {
+            "children": [
+              {
+                "id": "openbit.page-header.badges.status",
+                "kind": "component",
+                "component": "content.badge",
+                "props": {
+                  "variant": "info"
+                },
+                "bind": {
+                  "label": "$data.entity.status"
+                }
+              },
+              {
+                "id": "openbit.page-header.badges.organization",
+                "kind": "component",
+                "component": "content.badge",
+                "bind": {
+                  "label": "$data.entity.organizationName"
+                }
+              },
+              {
+                "id": "openbit.page-header.badges.model",
+                "kind": "component",
+                "component": "content.badge",
+                "bind": {
+                  "label": "$data.entity.modelName"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

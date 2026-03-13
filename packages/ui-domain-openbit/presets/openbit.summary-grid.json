@@ -1,0 +1,37 @@
+{
+  "id": "openbit.summary-grid",
+  "kind": "preset",
+  "title": "OpenBit Summary Grid",
+  "description": "Metric summary grid for counts and cost.",
+  "root": {
+    "id": "openbit.summary-grid.root",
+    "kind": "component",
+    "component": "layout.grid",
+    "props": {
+      "gap": 12
+    },
+    "slots": {
+      "children": [
+        {
+          "id": "openbit.summary-grid.collection",
+          "kind": "collection",
+          "bind": {
+            "items": "$data.stats.items"
+          },
+          "slots": {
+            "template": {
+              "id": "openbit.summary-grid.collection.template",
+              "kind": "component",
+              "component": "data.metric",
+              "bind": {
+                "label": "$derived.item.label",
+                "value": "$derived.item.value",
+                "meta": "$derived.item.meta"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

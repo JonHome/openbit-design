@@ -1,0 +1,28 @@
+{
+  "id": "content.badge",
+  "kind": "component",
+  "title": "Badge",
+  "description": "Compact semantic badge.",
+  "props": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "variant": {
+      "type": "enum",
+      "enum": [
+        "default",
+        "info",
+        "success",
+        "warning",
+        "error"
+      ],
+      "default": "default"
+    }
+  },
+  "rendererHints": {
+    "jsonrender": {
+      "type": "Badge"
+    }
+  }
+}
